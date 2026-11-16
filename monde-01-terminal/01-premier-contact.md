@@ -6,6 +6,13 @@
 - Ensuite ça me demande le mot de passe de la session.
 - Je suis connecté sur : `andre@linuxquest`
 
+Explications de la commande :  
+- `ssh`: sert à lancer la connexion ssh
+- `andre`: sert à ce connecter à l'utilisateur `andre`
+- `@`: sert à séparer le username du hostname
+- `localhost -p 2222`: En fait je passe par mon localhost pour me connecter à ma machine. Ce qu'il s'est passé c'est que mon localhost:2222 est monté sur la machine `linuxquest:22`. Donc en me connectant à mon localhost:2222, je me connecte directement vers linuxquest:22. J'ai paramétré ça sur virtualbox dans la partie réseau. Tu n'as pas a savoir comment j'ai fait, c'est hors du cours et je ne veux pas perdre du temps a expliquer ça.
+
+
 ## Les commandes
 
 - `whoami`: Affiche qui je suis, mon nom d'utilisateur étant `andre`, il m'affiche donc cela. C'est la partie à gauche de `andre@linuxquest`.
@@ -19,8 +26,8 @@
     - `-m`: `x86_64`
     - `-o`: `GNU/Linux`
 - `clear`: Je connaissais déjà, ça permet d'effacer le contenu du terminal.
-- `exit`: Sert à sortir de la session. En tout cas c'est comme ça que je le comprend vu qu'il n'y a pas de `man exit` et que quand j'utilise exit ça me sort de la VM.
+- `exit`: Sert à fermer le shell de la session. En tout cas c'est comme ça que je le comprend vu qu'il n'y a pas de `man exit` et que quand j'utilise exit ça me sort du terminal de la VM.
 - `reboot`: Ca permet de redémarrer. Ma VM a redémarré avec `sudo reboot`. Mon terminal a quitté la VM.
 - `poweroff`: Sert à éteindre la machine. Ma VM s'est éteinte avec `sudo poweroff`. Mon terminal a quitté la VM.
 
-Concernant `reboot` + `poweroff`, j'ai constaté en lisant le manuel qu'ils partageaient les mêmes options et donc qu'il est possible d'éteindre, de redémarrer ou d'arrêter la machine avec eux selon les options que l'on applique mais par défault, reboot sert à redemarrer et poweroff à éteindre. Dernière chose, il n'est possible de lancer ces commandes qu'en utilisant `sudo`.
+Concernant `reboot` + `poweroff`, j'ai constaté en lisant le manuel qu'ils partageaient les mêmes options et donc qu'il est possible d'éteindre, de redémarrer ou d'arrêter la machine avec eux selon les options que l'on applique mais par défault, reboot sert à redemarrer et poweroff à éteindre. Dernière chose, il n'est possible de lancer ces commandes qu'en utilisant `sudo` car sinon j'ai ce message : `-bash: poweroff : commande introuvable`.
