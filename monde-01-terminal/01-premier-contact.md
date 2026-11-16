@@ -39,4 +39,7 @@ Concernant `reboot` + `poweroff`, j'ai constaté en lisant le manuel qu'ils part
 
 Raison :
 - En tapant une commande, le shell cherche dans une liste de dossiers précise enregistrée dans la variable PATH.
-- poweroff et reboot sont rangé dans `/usr/bin`. Sudo a accès à ces dossiers mais pas l'utilisateur courant.
+- poweroff et reboot sont rangé dans `/usr/sbin`. Sudo a accès à ces dossiers grâce a son PATH.
+
+## Aides :
+Notions autour de PREEMPT_DYNAMIC viennent d'une source externe, je trouve plus c'est laquelle.
