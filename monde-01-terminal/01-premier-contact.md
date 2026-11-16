@@ -2,6 +2,8 @@
 
 ## Connection à mon SSH
 
+- je me suis connecté une fois dans la fenêtre VirtualBox pour tester.
+
 - Pour me connecte à ma VM j'utilise sur mon terminal : `ssh andre@localhost -p 2222`
 - Ensuite ça me demande le mot de passe de la session.
 - Je suis connecté sur : `andre@linuxquest`
@@ -23,6 +25,9 @@ Explications de la commande :
     - `-n`: `linuxquest`
     - `-r`: `6.12.117+deb13-amd64`
     - `-v`: `#1 SMP PREEMPT_DYNAMIC Debian 6.12.117-1 (2026-11-12)`
+        - `#1` indique le numéro de compilation du noyau.
+        - `SMP`: Ca veut dire que le noyau peut utiliser plusieurs coeurs ou processeurs.
+        - `PREEMPT_DYNAMIC`: le noyau prend en charge un mode de préemption configurable à l’exécution. Le mode actif dépend de la configuration de la distribution; le libellé seul ne précise pas lequel est actuellement utilisé.
     - `-m`: `x86_64`
     - `-o`: `GNU/Linux`
 - `clear`: Je connaissais déjà, ça permet d'effacer le contenu du terminal.
@@ -31,3 +36,7 @@ Explications de la commande :
 - `poweroff`: Sert à éteindre la machine. Ma VM s'est éteinte avec `sudo poweroff`. Mon terminal a quitté la VM.
 
 Concernant `reboot` + `poweroff`, j'ai constaté en lisant le manuel qu'ils partageaient les mêmes options et donc qu'il est possible d'éteindre, de redémarrer ou d'arrêter la machine avec eux selon les options que l'on applique mais par défault, reboot sert à redemarrer et poweroff à éteindre. Dernière chose, il n'est possible de lancer ces commandes qu'en utilisant `sudo` car sinon j'ai ce message : `-bash: poweroff : commande introuvable`.
+
+Raison :
+- En tapant une commande, le shell cherche dans une liste de dossiers précise enregistrée dans la variable PATH.
+- poweroff et reboot sont rangé dans `/usr/bin`. Sudo a accès à ces dossiers mais pas l'utilisateur courant.
