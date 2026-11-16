@@ -125,7 +125,7 @@ Quand je te demande d'évaluer des niveaux :
 Légende : `☆☆☆` = pas encore fait · `⭐☆☆` = mission accomplie · `⭐⭐☆` = notion comprise · `⭐⭐⭐` = compétence acquise
 
 ### 🌱 Monde 1 : Les fondamentaux du terminal
-- `☆☆☆` **01** · Premier contact : se connecter à la VM en console puis en SSH depuis mon PC, `whoami`, `hostname`, `date`, `uname -a`, `clear`, `exit`, `reboot` et `poweroff`
+- `⭐⭐⭐` **01** · Premier contact : se connecter à la VM en console puis en SSH depuis mon PC, `whoami`, `hostname`, `date`, `uname -a`, `clear`, `exit`, `reboot` et `poweroff`
 - `☆☆☆` **02** · Se déplacer : `pwd`, `cd` (`cd ..`, `cd ~`, `cd -`), `ls` et ses options (`-l`, `-a`, `-h`), chemins absolus et relatifs
 - `☆☆☆` **03** · Créer et supprimer : `mkdir` (et `-p`), `touch`, `echo` vers un fichier, `rmdir`, `rm` (et `-r`, `-i`)
 - `☆☆☆` **04** · Copier, déplacer, renommer : `cp` (et `-r`), `mv`, et les jokers (`*`, `?`, `{a,b}`)
@@ -264,7 +264,7 @@ Légende : `☆☆☆` = pas encore fait · `⭐☆☆` = mission accomplie · `
 | 61 à 80 | Maître de sa machine |
 | 81 à 100 | Dépanneur légendaire |
 
-**Total : 0 / 300 ⭐**
+**Total : 3 / 300 ⭐**
 
 ---
 
