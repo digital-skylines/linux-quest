@@ -1,283 +1,257 @@
 # 🐧 Linux Quest
 
-Parcours d'**apprentissage** gamifié de Linux (Debian) : **100 niveaux**, **10 mondes**, un **boss** à la fin de chaque monde.
-Objectif : comprendre vraiment comment fonctionne Linux, de la console jusqu'au bureau graphique, et savoir **dépanner ma propre machine**.
+Mon cours de Linux (Debian), en **sessions de 20 minutes**, à raison d'une par jour.
+Objectif : savoir utiliser Linux au quotidien, comprendre ce qui se passe sur ma machine, et à terme **savoir la dépanner**.
 
-> Contrairement à JS Quest, qui évalue mon niveau, Linux Quest est un parcours où **j'apprends** : chaque niveau introduit une notion, puis me la fait pratiquer. Les boss sont les épreuves où je prouve ce que j'ai appris.
+> J'apprends en faisant : chaque session présente une seule notion, me la fait pratiquer dans la VM, puis me pose quelques questions. Pas de note, pas d'étoiles, juste une progression.
 
 ---
 
-## 📜 Règles du jeu
+## 📜 Règles
 
-### Généralités
-- Les niveaux se font **dans l'ordre** : chacun s'appuie sur les précédents.
-- Pour passer au monde suivant, il faut **battre le boss avec au moins 2 ⭐**.
-- Un niveau peut être **rejoué** plus tard pour récupérer les étoiles manquantes.
-- Les **niveaux bonus** sont facultatifs et ne comptent pas dans le total.
+### Le principe
+- **Une session = une notion = 20 minutes maximum** : environ 5 minutes de lecture, 10 de pratique, 5 pour répondre aux questions.
+- Les sessions se font **dans l'ordre** : chacune n'utilise que ce qui a été vu avant.
+- Chaque chapitre se termine par un **défi** : une petite situation à résoudre seul, avec ce que j'ai appris. Pas de note, juste de la pratique.
+- Une session peut être refaite quand je veux, pour réviser.
 
-### Les étoiles (0 à 3 par niveau)
-Pour chaque niveau, je rédige un **compte rendu**. Les étoiles sont attribuées **par Claude, à son jugement**, selon ce que ce compte rendu montre des compétences acquises :
+### Déroulé d'une session
+1. Je demande à Claude : **« Session X.Y »**.
+2. Claude génère le fichier de la session (voir le modèle plus bas) et je le place dans le bon dossier.
+3. Je fais la pratique dans la VM.
+4. J'écris mes réponses aux questions directement dans le fichier.
+5. Je commite : `session X.Y : nom de la session`
+6. Je demande à Claude : **« Relis la session X.Y »**. Il me fait un retour court, et je coche la notion dans ce README.
 
-| Étoiles | Ce que montre le compte rendu |
-|---|---|
-| ⭐ | **La mission est accomplie** : les commandes et leurs sorties prouvent que c'est fait. Sans cette étoile, le niveau n'est **pas validé**. |
-| ⭐⭐ | **La notion est comprise** : mes explications sont justes et cohérentes avec ce que j'ai fait et observé. Je sais dire ce que fait chaque commande et pourquoi je l'ai utilisée. |
-| ⭐⭐⭐ | **La compétence est acquise** : je vais au-delà de la mission. Je fais des liens avec les niveaux précédents, j'interprète ce que j'observe, je repère les pièges, et je saurais refaire la mission dans un autre contexte. |
+### 🖥️ L'environnement
+- **Une VM VirtualBox** : Debian **sans environnement graphique**, avec seulement « serveur SSH » et « utilitaires usuels du système » cochés à l'installation.
+- 2 cœurs, 3 à 4 Go de RAM, 15 à 20 Go de disque.
+- Je m'y connecte **en SSH depuis mon vrai terminal** (`ssh andre@localhost -p 2222`, grâce à une redirection de port VirtualBox). La fenêtre VirtualBox sert quand le réseau ou le démarrage sont cassés.
+- Le mode graphique n'arrive qu'au **chapitre 12**.
 
-- Les étoiles sont **progressives** : si j'enrichis ou corrige un compte rendu plus tard, Claude peut le réévaluer et monter la note. Rien n'est perdu définitivement.
-- Les aides que j'ai utilisées sont **déclarées dans le compte rendu**. Elles ne coûtent pas d'étoile par elles-mêmes : ce qui compte, c'est que le compte rendu montre que j'ai compris.
-
-**Score** : 300 ⭐ au maximum. Le niveau réel se lit avec le niveau atteint **et** le total d'étoiles.
-
-### 🖥️ Où faire chaque niveau
-**Tout se fait dans la VM**, et presque tout en mode texte :
-
-| Mondes | Environnement |
-|---|---|
-| 1 à 7, 9 et 10 | La VM, **en mode texte uniquement** (console ou SSH depuis mon vrai terminal) |
-| 8 | La même VM, sur laquelle j'installe moi-même le bureau graphique (niveau 72) |
-| 99 | Une **deuxième VM**, en netinstall minimal |
-| Bonus B4 | Mon vrai PC, **en lecture seule** (observer, ne rien modifier) |
-
-**La VM**
-- Debian **sans environnement graphique**, avec seulement « serveur SSH » et « utilitaires usuels du système » cochés à l'installation.
-- 2 cœurs, 3 à 4 Go de RAM, 15 à 20 Go de disque (au format qcow2, il ne prend que la place réellement utilisée).
-- Outil : **virt-manager** (KVM).
-- Je m'y connecte **en SSH depuis mon vrai terminal** dès le niveau 01. La console de virt-manager reste utile quand le réseau ou le démarrage sont cassés.
-
-**📸 Snapshots obligatoires**
-- Un snapshot **« propre »** juste après l'installation de la VM
-- Un snapshot **avant chaque boss**
-- Un snapshot **avant le niveau 72** (installation du bureau)
+**📸 Snapshots**
+- Un snapshot **« propre »** juste après l'installation
+- Un snapshot **avant chaque défi**
+- Un snapshot **avant le chapitre 12** (installation du bureau)
 
 ### La documentation
-Tout est permis pour apprendre : `man`, `--help`, `tldr`, le wiki Debian, le wiki Arch, des articles, et Claude pour **expliquer une notion** (« Fiche NN » ou « Mode doc : »).
+Tout est permis : `man`, `--help`, le wiki Debian, des articles, et Claude (« **Mode doc :** » pour une explication isolée).
 
-La seule règle : **pour les boss, je ne lis pas le script de sabotage** avant de l'avoir lancé.
+---
 
-### Workflow
-1. **(Facultatif)** Je demande à Claude la **fiche du niveau** : « Fiche NN ».
-2. Je réalise la mission.
-3. Je rédige le **compte rendu** du niveau (voir le modèle ci-dessous).
-4. Un commit par niveau : `niveau NN : nom du niveau ✅`
-5. Je demande l'évaluation à Claude : « évalue les niveaux NN à NN ».
+## 🗂️ Organisation du repo
 
-### Organisation du repo
-Un dossier par monde, et **un fichier Markdown par niveau** :
 ```
 linux-quest/
 ├── README.md
-├── monde-01-terminal/
-│   ├── 01-premier-contact.md
-│   ├── 02-se-deplacer.md
-│   └── ...
-├── monde-04-scripts/
-│   ├── 40-boss-rangement.md
-│   ├── 40-boss-rangement.sh   ← scripts et fichiers de config à côté du compte rendu, si le niveau en produit
-│   └── ...
-└── ...
+└── cours/
+    ├── 01-premiers-pas/
+    │   ├── 1.1-se-connecter.md
+    │   ├── 1.2-ou-suis-je.md
+    │   └── ...
+    ├── 02-manipuler-des-fichiers/
+    │   └── ...
+    └── ...
 ```
 
-### Le compte rendu
-Chaque fichier de niveau est un compte rendu libre, rédigé avec mes mots. Il contient en général :
-- **Ce que j'ai fait** : les commandes tapées et leur sortie, en blocs de code
-- **Ce que j'ai observé** : ce qui s'est passé, ce qui m'a surpris
-- **Ce que j'en ai compris** : pourquoi ça fonctionne comme ça
-- **Ce que j'en pense** : les liens avec ce que je connais déjà, les questions qui restent, ce que je ferais différemment
-- **Les aides utilisées**
+### Modèle d'un fichier de session
+
+```markdown
+# Session X.Y · Titre
+
+🎯 **Objectif** : à la fin de cette session, je sais …
+
+## 📖 Ce qu'il faut savoir
+(un peu de théorie, seulement si nécessaire)
+
+## 🛠️ Pratique
+1. …
+2. …
+3. 🧩 À moi de jouer : une petite tâche sans la commande donnée
+
+## ❓ Questions
+1. …
+   **Ma réponse :**
+2. …
+   **Ma réponse :**
+```
 
 ---
 
-## 🤖 Instructions pour Claude (le professeur et l'arbitre)
+## 🤖 Instructions pour Claude (le professeur)
 
-Tu as **deux rôles** dans ce parcours.
+### Quand je demande « Session X.Y »
+- Génère le fichier de la session selon le modèle ci-dessus, prêt à être copié dans `cours/`.
+- **Une seule notion**, faisable en **20 minutes**.
+- **N'utilise que ce qui a déjà été vu** dans les sessions précédentes. Si une commande d'un chapitre ultérieur est indispensable, présente-la comme « à voir plus tard », sans la détailler.
+- **Théorie** : courte, sans jargon. Définis chaque terme technique la première fois. Pars de l'usage : à quoi ça me sert, à moi, utilisateur.
+- **Pratique** : des étapes concrètes dans la VM, avec les commandes. Termine par une petite tâche « à moi de jouer » où la commande n'est pas donnée.
+- **Questions** : 2 à 3, simples, sur ce que j'ai fait et observé, ou sur l'utilité de la notion. Pas de piège, pas de notion qui n'a pas été vue.
 
-### 🎓 Rôle 1 : le professeur
-- Quand je demande **« Fiche NN »**, rédige une courte fiche **« Ce que tu vas apprendre »** : la notion expliquée simplement en quelques paragraphes, les commandes concernées et leurs options utiles, les pièges courants. **Ne donne jamais la solution de la mission.**
-- Quand ma question commence par **« Mode doc : »**, réponds comme une documentation : notion, commande, syntaxe, exemple isolé, **jamais appliqué à la mission**.
-- Je débute sous Linux (Debian depuis septembre 2026) : explique sans jargon inutile, et définis chaque terme technique la première fois.
+### Quand je demande « Relis la session X.Y »
+- Lis mes réponses dans le fichier du repo.
+- Réponds **dans le chat, en quelques lignes** : ce qui est juste, et une correction **uniquement si une réponse est fausse**, en une ou deux phrases.
+- Ne demande **pas** de réécriture, et n'ajoute pas de notions hors du programme de la session.
+- Indique la ligne à cocher et la nouvelle progression.
 
-### ⚖️ Rôle 2 : l'arbitre
-Quand je te demande d'évaluer des niveaux :
+### Quand ma question commence par « Mode doc : »
+Réponds comme une documentation : la notion, la commande, la syntaxe, un exemple isolé.
 
-1. **Lis** ce README, l'énoncé de chaque niveau (liste ci-dessous) et le **compte rendu** de chaque niveau, ainsi que les scripts et fichiers de config éventuels.
-2. **Attribue les étoiles à ton jugement**, selon le tableau des étoiles : la mission est-elle accomplie ? Les explications sont-elles **justes et cohérentes** avec les commandes et les sorties ? Le compte rendu montre-t-il que la compétence est **réellement acquise** ?
-3. **Justifie ta note** en quelques lignes : ce qui montre la compréhension, et ce qui manque pour l'étoile suivante.
-4. **Corrige les erreurs de compréhension** : si une explication est fausse ou approximative, dis-le clairement et explique la bonne version. C'est un parcours d'apprentissage.
-5. Si un point du compte rendu est ambigu, tu peux me poser **une ou deux questions** avant de trancher.
-6. **Scripts** (monde 4 et suivants) : signale **directement** les points cosmétiques (nommage, code commenté, indentation). Pour les points logiques (bugs, cas limites, gestion des erreurs, chemins avec des espaces), donne d'abord la **catégorie**, puis le détail seulement si je le demande. Ne donne pas de script corrigé.
-7. **Sécurité** : si une de mes commandes est **dangereuse** (un `rm -rf` mal placé, un `chmod 777` sur un dossier système, une manipulation hors de la VM), signale-le **en priorité**, même si la mission est réussie.
-8. **L'orthographe** n'est pas évaluée.
-9. **Pas de complaisance** : une étoile non méritée fausse ma progression. Mais une note n'est jamais définitive : si j'améliore un compte rendu, réévalue-le.
-10. **Récapitulatif** : termine par le score (niveau validé, total d'étoiles) et la ligne à mettre à jour dans ce README.
+### Les défis
+- Quand je demande « **Prépare le défi X** », fournis ce qu'il faut : des fichiers à placer, une arborescence à créer ou un script à lancer.
+- Les scripts qui cassent quelque chose sont **conçus pour la VM uniquement** : ils vérifient qu'ils tournent dans une machine virtuelle et refusent de s'exécuter sinon.
+- Ne m'explique pas le contenu du script avant que j'aie fini. Ensuite, révèle tout ce qui avait été mis en place, pour que je vérifie que je n'ai rien oublié.
 
-### 😈 Les boss
-- Pour **chaque boss**, c'est toi qui prépares l'épreuve quand je te la demande (« Prépare le boss NN ») : un script de sabotage, une arborescence piégée ou des fichiers de test à traiter.
-- Je récupère tes fichiers dans la VM par SSH (copier-coller dans le terminal, ou `scp` depuis mon vrai PC).
-- Les scripts de sabotage sont **conçus pour la VM uniquement** : ils vérifient qu'ils tournent bien dans une machine virtuelle et refusent de s'exécuter sinon. Ils ne cassent **que la VM**, jamais le réseau ou les données de ma vraie machine.
-- Livre le script **sans en expliquer le contenu**. Je le lance sans le lire, après un snapshot.
-- Après le boss, révèle **tout ce qui avait été cassé**, pour que je vérifie que je n'ai rien oublié.
+### Toujours
+- **Sécurité** : si une de mes commandes est dangereuse (un `rm -rf` mal placé, un `chmod 777` sur un dossier système, une manipulation hors de la VM), signale-le en priorité.
+- L'orthographe n'est pas évaluée.
 
 ---
 
-## 🗺️ Les niveaux
+## 🗺️ Programme
 
-Légende : `☆☆☆` = pas encore fait · `⭐☆☆` = mission accomplie · `⭐⭐☆` = notion comprise · `⭐⭐⭐` = compétence acquise
+Légende : `[x]` = session faite · `[ ]` = à faire
 
-### 🌱 Monde 1 : Les fondamentaux du terminal
-- `⭐⭐⭐` **01** · Premier contact : se connecter à la VM en console puis en SSH depuis mon PC, `whoami`, `hostname`, `date`, `uname -a`, `clear`, `exit`, `reboot` et `poweroff`
-- `☆☆☆` **02** · Se déplacer : `pwd`, `cd` (`cd ..`, `cd ~`, `cd -`), `ls` et ses options (`-l`, `-a`, `-h`), chemins absolus et relatifs
-- `☆☆☆` **03** · Créer et supprimer : `mkdir` (et `-p`), `touch`, `echo` vers un fichier, `rmdir`, `rm` (et `-r`, `-i`)
-- `☆☆☆` **04** · Copier, déplacer, renommer : `cp` (et `-r`), `mv`, et les jokers (`*`, `?`, `{a,b}`)
-- `☆☆☆` **05** · Lire des fichiers : `cat`, `less`, `head`, `tail` (et `-f`), `wc`, `file`, `stat`
-- `☆☆☆` **06** · Éditer avec `nano` : ouvrir, modifier, chercher, enregistrer, quitter
-- `☆☆☆` **07** · Survivre dans `vim` : les modes, insérer, enregistrer, quitter (avec ou sans enregistrer), supprimer une ligne, annuler, chercher
-- `☆☆☆` **08** · Lire la doc : `man` (naviguer, chercher, les sections), `--help`, `apropos`, `type`, `which`
-- `☆☆☆` **09** · L'historique et les raccourcis : `history`, `!!`, `!n`, `Ctrl+R`, la complétion avec `Tab`, `Ctrl+A/E/W/L/C/D`
-- `☆☆☆` **10** · 👹 **BOSS : Chasse au trésor** (une arborescence piégée préparée par Claude : trouver les indices en naviguant, lisant et éditant des fichiers)
+**Progression : 1 / 99 sessions (1 %)**
 
-### 🗂️ Monde 2 : Le système de fichiers
-- `☆☆☆` **11** · L'arborescence de Linux : à quoi servent `/etc`, `/var`, `/usr`, `/home`, `/tmp`, `/opt`, `/boot`, `/dev`, `/proc`
-- `☆☆☆` **12** · Fichiers cachés, noms avec des espaces et caractères spéciaux : guillemets simples et doubles, échappement avec `\`
-- `☆☆☆` **13** · Liens physiques et symboliques : `ln`, la notion d'inode, et ce qui se passe quand on supprime l'original
-- `☆☆☆` **14** · Les variables d'environnement : `echo $VAR`, `PATH`, `HOME`, `export`, `env`
-- `☆☆☆` **15** · Personnaliser `~/.bashrc` : alias, prompt personnalisé, `source`
-- `☆☆☆` **16** · Les archives : `tar` (créer, lister, extraire), `gzip`, `zip` et `unzip`
-- `☆☆☆` **17** · Devenir administrateur : le compte root, `su -`, `sudo`, et ajouter mon utilisateur au groupe `sudo`
-- `☆☆☆` **18** · Installer des logiciels, les bases : `apt update`, `upgrade`, `install`, `remove`, `search` (installer `tree`, `htop` et `tldr`)
-- `☆☆☆` **19** · Télécharger et mesurer : `wget`, `curl`, puis l'espace disque avec `df -h` et `du -sh`
-- `☆☆☆` **20** · 👹 **BOSS : Le grand déménagement** (réorganiser une arborescence en désordre selon un cahier des charges : dossiers, liens, archives, fichiers cachés)
+### 🌱 Chapitre 1 · Premiers pas
+- [x] **1.1** · Se connecter à la VM : en console et en SSH, `whoami`, `hostname`
+- [ ] **1.2** · Où suis-je ? `pwd`, `ls` et ses options (`-l`, `-a`, `-h`)
+- [ ] **1.3** · Se déplacer : `cd`, `~`, `..`, `cd -`, chemins absolus et relatifs
+- [ ] **1.4** · Infos sur la machine et la session : `date`, `uname`, `clear`, `exit`
+- [ ] **1.5** · 🧩 **Défi : explorer la VM**
 
-### 🔐 Monde 3 : Droits et utilisateurs
-- `☆☆☆` **21** · Lire les droits `rwx` et les changer avec `chmod`, en notation symbolique et octale
-- `☆☆☆` **22** · Propriétaires et groupes : `chown`, `chgrp`, `id`, `groups`
-- `☆☆☆` **23** · Créer et gérer des utilisateurs : `adduser`, `usermod`, `deluser`
-- `☆☆☆` **24** · `/etc/passwd`, `/etc/shadow`, `/etc/group` : les comprendre ligne par ligne
-- `☆☆☆` **25** · `sudoers` en détail : `visudo`, donner des droits limités à un utilisateur, et pourquoi on ne travaille pas en root
-- `☆☆☆` **26** · `umask` : les droits par défaut des nouveaux fichiers
-- `☆☆☆` **27** · Les droits spéciaux : setuid, setgid, sticky bit (pourquoi `/tmp` est en `drwxrwxrwt`)
-- `☆☆☆` **28** · Les ACL : des droits plus fins avec `getfacl` et `setfacl`
-- `☆☆☆` **29** · Un dossier partagé entre deux utilisateurs, sans rien ouvrir de trop
-- `☆☆☆` **30** · 👹 **BOSS : Le dossier verrouillé** (un utilisateur a perdu l'accès à ses fichiers : trouver pourquoi et corriger sans tout passer en 777)
+### 📄 Chapitre 2 · Manipuler des fichiers
+- [ ] **2.1** · Créer : `mkdir` (et `-p`), `touch`, `echo` vers un fichier
+- [ ] **2.2** · Lire : `cat`, `less`, `head`, `tail`
+- [ ] **2.3** · Copier, déplacer, renommer : `cp` (et `-r`), `mv`
+- [ ] **2.4** · Supprimer sans regret : `rm`, `rmdir`, `rm -i`, et les dangers de `rm -r`
+- [ ] **2.5** · Les jokers : `*`, `?`, `{a,b}`
+- [ ] **2.6** · Éditer un fichier avec `nano`
+- [ ] **2.7** · 🧩 **Défi : ranger un dossier en désordre**
 
-### 🧵 Monde 4 : Texte, pipes et scripts
-- `☆☆☆` **31** · Rediriger les flux : `>`, `>>`, `2>`, `&>`, `/dev/null`, `<`
-- `☆☆☆` **32** · Les pipes et `grep` : chercher dans des fichiers et dans des sorties de commandes
-- `☆☆☆` **33** · `find` en profondeur : chercher par nom, taille, date, droits, puis agir avec `-exec`
-- `☆☆☆` **34** · `sort`, `uniq`, `wc`, `cut`, `tr` : compter et trier des données
-- `☆☆☆` **35** · `sed` : remplacer du texte en masse
-- `☆☆☆` **36** · `awk` : extraire des colonnes et calculer
-- `☆☆☆` **37** · Premier script bash : shebang, rendre exécutable, variables, arguments, `if`, codes de retour (`$?`)
-- `☆☆☆` **38** · Boucles et fonctions bash, gestion des erreurs avec `set -euo pipefail`
-- `☆☆☆` **39** · Améliorer mon `update-all.sh` existant : options, couleurs, gestion d'erreurs, résumé final
-- `☆☆☆` **40** · 👹 **BOSS : Script de rangement** (sur un dossier en désordre fourni par Claude : trier par type et par date, avec un mode simulation et un journal)
+### 🧭 Chapitre 3 · Se débrouiller seul
+- [ ] **3.1** · Lire le manuel : `man`, `--help`
+- [ ] **3.2** · Trouver une commande : `apropos`, `type`, `which`
+- [ ] **3.3** · L'historique : `history`, `!!`, `Ctrl+R`
+- [ ] **3.4** · Taper moins : la complétion avec `Tab`, `Ctrl+A/E/W/L/C/D`
+- [ ] **3.5** · Survivre dans `vim` : entrer, modifier, enregistrer et surtout en sortir
+- [ ] **3.6** · 🧩 **Défi : la chasse aux indices**
 
-### 📦 Monde 5 : Paquets et logiciels
-- `☆☆☆` **41** · `apt` en profondeur : `full-upgrade`, `autoremove`, `show`, `policy`, la différence entre `apt` et `apt-get`
-- `☆☆☆` **42** · `dpkg` : installer un `.deb`, lister les fichiers d'un paquet, trouver à quel paquet appartient un fichier
-- `☆☆☆` **43** · Les dépôts : `sources.list`, les sections `main`, `contrib`, `non-free` et `non-free-firmware`, et les clés de signature
-- `☆☆☆` **44** · Stable, testing, sid et backports : comprendre les branches de Debian et leurs risques
-- `☆☆☆` **45** · Dépendances : `apt-cache depends`, `rdepends`, et pourquoi un paquet refuse de s'installer
-- `☆☆☆` **46** · Créer mon propre paquet `.deb` pour un de mes scripts, l'installer avec `apt`, puis le désinstaller proprement
-- `☆☆☆` **47** · Compiler un petit logiciel depuis ses sources : `./configure`, `make`, `make install`, puis le désinstaller proprement
-- `☆☆☆` **48** · Épingler (`apt-mark hold`) et figer une version
-- `☆☆☆` **49** · Logs et historique d'apt : retrouver ce qui a été installé, et quand
-- `☆☆☆` **50** · 👹 **BOSS : apt est cassé** (dépendances brisées, dépôt mal ajouté : réparer sans réinstaller)
+### 🔑 Chapitre 4 · Devenir administrateur
+- [ ] **4.1** · Le compte root et `sudo` : pourquoi, `su -`, le groupe `sudo`
+- [ ] **4.2** · Éteindre et redémarrer : `reboot`, `poweroff`
+- [ ] **4.3** · Installer et supprimer un logiciel : `apt update`, `install`, `remove`
+- [ ] **4.4** · Mettre à jour et chercher : `apt upgrade`, `search`, `show`
+- [ ] **4.5** · Mes premiers outils : installer et essayer `tree`, `htop` et `tldr`
+- [ ] **4.6** · 🧩 **Défi : préparer la VM pour la suite**
 
-### ⚙️ Monde 6 : Processus et services
-- `☆☆☆` **51** · `ps`, `top` et `htop` : lire les colonnes (PID, PPID, état, %CPU, RES), et l'arbre des processus avec `pstree`
-- `☆☆☆` **52** · Les signaux : `kill`, `SIGTERM` et `SIGKILL`, `killall`, `pkill`
-- `☆☆☆` **53** · Avant-plan et arrière-plan : `&`, `jobs`, `fg`, `bg`, `Ctrl+Z`, `nohup`
-- `☆☆☆` **54** · La mémoire et `/proc` : `free`, la RAM « utilisée » qui ne l'est pas vraiment (le cache), le système vu comme des fichiers
-- `☆☆☆` **55** · Qui utilise quoi : `lsof`, `fuser`, et les priorités avec `nice` et `renice`
-- `☆☆☆` **56** · systemd : `systemctl status`, `start`, `stop`, `enable`, `disable`, lister les services
-- `☆☆☆` **57** · `journalctl` : lire et filtrer les journaux par service, par démarrage, par priorité
-- `☆☆☆` **58** · Écrire ma propre unité de service systemd
-- `☆☆☆` **59** · Planifier des tâches : les timers systemd, et `cron` pour comparer
-- `☆☆☆` **60** · 👹 **BOSS : La machine qui rame** (un script de sabotage ralentit la VM et casse un service : trouver tous les coupables)
+### 🗂️ Chapitre 5 · Organiser ses fichiers
+- [ ] **5.1** · L'arborescence de Linux : `/etc`, `/home`, `/var`, `/usr`, `/tmp`…
+- [ ] **5.2** · Fichiers cachés, noms avec des espaces, guillemets et `\`
+- [ ] **5.3** · Les liens : `ln -s`, et ce qui se passe quand on supprime l'original
+- [ ] **5.4** · Les archives : `tar`, `gzip`, `zip` et `unzip`
+- [ ] **5.5** · L'espace disque : `df -h`, `du -sh`
+- [ ] **5.6** · Télécharger : `wget`, `curl`
+- [ ] **5.7** · Les variables d'environnement : `echo $VAR`, `HOME`, `PATH`, `export`
+- [ ] **5.8** · Personnaliser mon terminal : `~/.bashrc`, alias, `source`
+- [ ] **5.9** · 🧩 **Défi : le grand déménagement**
 
-### 🚀 Monde 7 : Démarrage et disques
-- `☆☆☆` **61** · Les étapes du démarrage : UEFI, GRUB, noyau, initramfs, systemd, et ce qui le ralentit avec `systemd-analyze`
-- `☆☆☆` **62** · GRUB : le menu, modifier une entrée au démarrage, `/etc/default/grub` et `update-grub`
-- `☆☆☆` **63** · Les targets : démarrer en mode secours et en mode urgence, et quand s'en servir
-- `☆☆☆` **64** · Identifier le matériel : `lsblk`, `lspci`, `lsusb`, `dmesg`
-- `☆☆☆` **65** · Ajouter un disque virtuel à la VM et le partitionner : `fdisk` ou `parted`, MBR ou GPT
-- `☆☆☆` **66** · Systèmes de fichiers : formater en ext4 et en btrfs avec `mkfs`, vérifier avec `fsck`
-- `☆☆☆` **67** · Monter et démonter : `mount`, `umount`, `blkid`, et monter automatiquement avec `/etc/fstab` et les UUID
-- `☆☆☆` **68** · La mémoire virtuelle : créer un fichier swap, l'activer au démarrage, régler `swappiness`
-- `☆☆☆` **69** · Les modules du noyau : `lsmod`, `modinfo`, `modprobe`, blacklister un module
-- `☆☆☆` **70** · 👹 **BOSS : Le démarrage infernal** (la VM ne démarre plus : `fstab` erroné, service bloquant… réparer depuis le mode secours)
+### 🔐 Chapitre 6 · Droits et utilisateurs
+- [ ] **6.1** · Lire les droits `rwx` avec `ls -l`
+- [ ] **6.2** · Changer les droits : `chmod`
+- [ ] **6.3** · Propriétaires et groupes : `chown`, `chgrp`, `id`, `groups`
+- [ ] **6.4** · Créer et gérer des utilisateurs : `adduser`, `usermod`, `deluser`
+- [ ] **6.5** · `/etc/passwd` et `/etc/group` : où Linux range ses utilisateurs
+- [ ] **6.6** · Donner des droits limités avec `sudo` : `visudo`
+- [ ] **6.7** · Un dossier partagé entre deux utilisateurs
+- [ ] **6.8** · 🧩 **Défi : le dossier verrouillé**
 
-### 🖥️ Monde 8 : Environnements graphiques
-*📸 Snapshot avant le niveau 72 : c'est ici que la VM passe en mode graphique.*
-- `☆☆☆` **71** · Le schéma général : serveur d'affichage, compositeur, gestionnaire de fenêtres, environnement de bureau
-- `☆☆☆` **72** · Installer un bureau depuis la console : XFCE, minimal, paquet par paquet, en comprenant le rôle de chacun
-- `☆☆☆` **73** · X11 ou Wayland : différences, savoir lequel tourne, et ce que ça change
-- `☆☆☆` **74** · Les gestionnaires de connexion (LightDM, GDM, SDDM) : en changer et les dépanner
-- `☆☆☆` **75** · Installer un deuxième environnement de bureau et comparer
-- `☆☆☆` **76** · Un gestionnaire de fenêtres minimaliste (i3), configuré à la main
-- `☆☆☆` **77** · Les fichiers `.desktop` et les associations de fichiers (`xdg-mime`)
-- `☆☆☆` **78** · Les dossiers XDG et mes dotfiles, versionnés dans un repo Git
-- `☆☆☆` **79** · Le son : PipeWire, `wpctl`, et pourquoi le son disparaît
-- `☆☆☆` **80** · 👹 **BOSS : Écran noir** (la session graphique ne démarre plus : réparer depuis une console texte avec `Ctrl+Alt+F3`)
+### 🔍 Chapitre 7 · Chercher et trier
+- [ ] **7.1** · Rediriger : `>`, `>>`, `2>`, `/dev/null`
+- [ ] **7.2** · Enchaîner des commandes avec les pipes `|`
+- [ ] **7.3** · Chercher dans des fichiers : `grep`
+- [ ] **7.4** · Chercher des fichiers : `find`
+- [ ] **7.5** · Trier et compter : `sort`, `uniq`, `wc`, `cut`
+- [ ] **7.6** · Remplacer du texte : `sed`, les bases
+- [ ] **7.7** · 🧩 **Défi : enquête dans les journaux**
 
-### 🌐 Monde 9 : Réseau
-- `☆☆☆` **81** · Interfaces et adresses : `ip a`, `ip r`, adresse IP, masque, passerelle
-- `☆☆☆` **82** · Configurer le réseau : `/etc/network/interfaces` et une IP fixe, puis NetworkManager et `nmcli` s'il est arrivé avec le bureau
-- `☆☆☆` **83** · DNS : `/etc/resolv.conf`, `/etc/hosts`, `dig`, et la différence entre « pas Internet » et « pas de DNS »
-- `☆☆☆` **84** · Diagnostiquer : `ping`, `traceroute`, `mtr`
-- `☆☆☆` **85** · Ports et connexions : `ss -tulpn`, qui écoute quoi
-- `☆☆☆` **86** · SSH en profondeur : clés, `~/.ssh/config`, tunnels, `scp` et `rsync`
-- `☆☆☆` **87** · Pare-feu : `ufw`, puis `nftables` pour comprendre ce qu'il y a dessous
-- `☆☆☆` **88** · Partager des fichiers entre mon PC et la VM (NFS ou Samba)
-- `☆☆☆` **89** · Lire le trafic avec `tcpdump` : capturer une requête HTTP et une résolution DNS, puis les analyser
-- `☆☆☆` **90** · 👹 **BOSS : Plus de réseau** (la VM n'accède plus à Internet, pour trois raisons différentes cachées : les trouver toutes)
+### ⚙️ Chapitre 8 · Automatiser
+- [ ] **8.1** · Mon premier script : shebang, rendre exécutable, lancer
+- [ ] **8.2** · Variables et arguments
+- [ ] **8.3** · Conditions et codes de retour (`if`, `$?`)
+- [ ] **8.4** · Les boucles
+- [ ] **8.5** · Fonctions et gestion des erreurs
+- [ ] **8.6** · Planifier une tâche avec `cron`
+- [ ] **8.7** · 🧩 **Défi : un script de rangement**
 
-### 🛠️ Monde 10 : Le Donjon du dépannage
-- `☆☆☆` **91** · Ma trousse de secours : démarrer la VM sur un ISO live Debian, et préparer une vraie clé USB live pour mon PC
-- `☆☆☆` **92** · `chroot` depuis le live : réparer un système qui ne démarre pas
-- `☆☆☆` **93** · Réinstaller GRUB après l'avoir cassé
-- `☆☆☆` **94** · Retrouver l'accès root après la perte du mot de passe
-- `☆☆☆` **95** · Disque plein à 100 % : récupérer le système
-- `☆☆☆` **96** · Une mise à jour qui casse tout : revenir en arrière proprement
-- `☆☆☆` **97** · Récupérer des fichiers supprimés ou une partition abîmée (`testdisk`, `photorec`)
-- `☆☆☆` **98** · Sauvegardes : `rsync`, snapshots btrfs sur un disque dédié, et une restauration testée pour de vrai
-- `☆☆☆` **99** · Installer Debian en netinstall minimal sur une deuxième VM, puis construire mon système pièce par pièce
-- `☆☆☆` **100** · 🐲 **BOSS FINAL : Le Chaos** (un script de sabotage casse plusieurs choses à plusieurs niveaux : démarrage, paquets, droits, réseau, graphique. Tout réparer en documentant mon diagnostic)
+### 🏃 Chapitre 9 · Ce qui tourne sur la machine
+- [ ] **9.1** · Les processus : `ps`, `htop`, `pstree`
+- [ ] **9.2** · Arrêter un programme : `Ctrl+C`, `kill`, `pkill`
+- [ ] **9.3** · Avant-plan et arrière-plan : `&`, `jobs`, `fg`, `bg`, `Ctrl+Z`
+- [ ] **9.4** · La mémoire : `free`, et la RAM « utilisée » qui ne l'est pas vraiment
+- [ ] **9.5** · Les services : `systemctl status`, `start`, `stop`, `enable`
+- [ ] **9.6** · Les journaux : `journalctl`
+- [ ] **9.7** · Créer mon propre service
+- [ ] **9.8** · Les timers systemd, comparés à `cron`
+- [ ] **9.9** · 🧩 **Défi : la machine qui rame**
 
-### 🎁 Niveaux bonus (facultatifs, après le monde 8)
-- `☆☆☆` **B1** · Flatpak et Flatseal : sandbox et permissions des applications
-- `☆☆☆` **B2** · Polices, thèmes, icônes et curseurs
-- `☆☆☆` **B3** · Wireshark : analyser du trafic en mode graphique
-- `☆☆☆` **B4** · Observer le matériel réel de mon PC, en lecture seule : pilotes (`lspci -k`), firmwares, santé des disques (`smartctl`)
-- `☆☆☆` **B5** · udev : réagir au branchement d'une clé USB (redirigée vers la VM)
+### 🌐 Chapitre 10 · Le réseau
+- [ ] **10.1** · Adresses et interfaces : `ip a`, `ip r`
+- [ ] **10.2** · Le DNS : `/etc/hosts`, `/etc/resolv.conf`, `dig`
+- [ ] **10.3** · Diagnostiquer : `ping`, `traceroute`
+- [ ] **10.4** · Qui écoute sur quel port : `ss -tulpn`
+- [ ] **10.5** · SSH avec des clés et `~/.ssh/config`
+- [ ] **10.6** · Copier entre machines : `scp`, `rsync`
+- [ ] **10.7** · Le pare-feu : `ufw`
+- [ ] **10.8** · 🧩 **Défi : plus de réseau**
 
----
+### 💽 Chapitre 11 · Disques et démarrage
+- [ ] **11.1** · Les étapes du démarrage, et `systemd-analyze`
+- [ ] **11.2** · GRUB : le menu, et modifier une entrée au démarrage
+- [ ] **11.3** · Le mode secours et le mode urgence
+- [ ] **11.4** · Identifier le matériel : `lsblk`, `lspci`, `dmesg`
+- [ ] **11.5** · Ajouter un disque à la VM et le partitionner
+- [ ] **11.6** · Formater : `mkfs`, ext4
+- [ ] **11.7** · Monter un disque : `mount`, `umount`, `/etc/fstab`
+- [ ] **11.8** · La mémoire virtuelle : un fichier swap
+- [ ] **11.9** · Le noyau et ses modules : `uname`, `lsmod`, `modprobe`
+- [ ] **11.10** · 🧩 **Défi : le démarrage infernal**
 
-## 🏆 Rangs
+### 🖥️ Chapitre 12 · L'environnement graphique
+*📸 Snapshot avant de commencer ce chapitre.*
+- [ ] **12.1** · Le schéma général : serveur d'affichage, gestionnaire de fenêtres, bureau
+- [ ] **12.2** · Installer XFCE depuis la console
+- [ ] **12.3** · X11 ou Wayland : savoir lequel tourne
+- [ ] **12.4** · Le gestionnaire de connexion : LightDM
+- [ ] **12.5** · Les applications : fichiers `.desktop` et associations de fichiers
+- [ ] **12.6** · Le son : PipeWire et `wpctl`
+- [ ] **12.7** · 🧩 **Défi : écran noir**
 
-| Niveaux | Rang |
-|---|---|
-| 1 à 20 | Utilisateur averti |
-| 21 à 40 | Bricoleur du terminal |
-| 41 à 60 | Mécanicien du système |
-| 61 à 80 | Maître de sa machine |
-| 81 à 100 | Dépanneur légendaire |
-
-**Total : 3 / 300 ⭐**
+### 🛠️ Chapitre 13 · Le dépannage
+- [ ] **13.1** · Ma trousse de secours : démarrer sur un ISO live
+- [ ] **13.2** · `chroot` : réparer un système depuis le live
+- [ ] **13.3** · Réinstaller GRUB
+- [ ] **13.4** · Retrouver l'accès root après la perte du mot de passe
+- [ ] **13.5** · Disque plein à 100 % : récupérer le système
+- [ ] **13.6** · Réparer `apt` : dépôts mal ajoutés et dépendances cassées
+- [ ] **13.7** · Une mise à jour qui casse tout : revenir en arrière
+- [ ] **13.8** · Récupérer des fichiers supprimés
+- [ ] **13.9** · Sauvegarder et restaurer pour de vrai
+- [ ] **13.10** · 🐲 **Défi final : le Chaos**
 
 ---
 
 ## 💬 Prompts pour une nouvelle conversation
 
-**Pour apprendre ou évaluer :**
+**Pour une session :**
 ```
-Je fais un parcours d'apprentissage gamifié de Linux. Tu es mon professeur et l'arbitre qui évalue mes niveaux.
+Je suis un cours de Linux en sessions de 20 minutes. Tu es mon professeur.
 Repo : https://github.com/digital-skylines/linux-quest
-Lis le README.md (règles et instructions pour toi), puis [Fiche NN / évalue les niveaux NN à NN / prépare le boss NN].
+Lis le README.md (règles et instructions pour toi), puis [Session X.Y / Relis la session X.Y / Prépare le défi X.Y].
 ```
 
-**En fin de session, pour mettre à jour le README :**
+**Pour mettre à jour le README :**
 ```
-Mets à jour le README.md de mon repo linux-quest à partir de la version actuelle du repo : les étoiles de chaque niveau évalué dans cette conversation, le total d'étoiles, et les nouvelles règles décidées dans cette conversation. Ne modifie rien d'autre et renvoie-moi le fichier complet.
+Mets à jour le README.md de mon repo linux-quest à partir de la version actuelle du repo : coche les sessions relues dans cette conversation, mets à jour la progression, et ajoute les nouvelles règles décidées dans cette conversation. Ne modifie rien d'autre et renvoie-moi le fichier complet.
 ```
